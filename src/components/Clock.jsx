@@ -1,19 +1,24 @@
-
-
 import { useState, useEffect } from "react";
 
 function Clock() {
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [time, setTime] = useState(getCurrentTime());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString());
-    }, 1000);
+      setTime(getCurrentTime());
+    }, 60000); // Met à jour chaque minute
 
-    return () => clearInterval(interval); // Nettoyage de l'intervalle
+    return () => clearInterval(interval); // Nettoie l'intervalle
   }, []);
 
-  return <div className="Clock">{time}</div>;
+  function getCurrentTime() {
+    const now = new Date();
+    let hours = now.getHours().toString().padStart(2, '0');
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  return <div className="clock">{time}</div>;
 }
 
 export default Clock;
